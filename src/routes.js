@@ -22,32 +22,32 @@ const mainRoters = new VueRoters({
     routes:
     [
         {
-            path:"/login",
+            path:"/inyil/login",
             name:"login",
             component: Login,
             meta: { requiresVisitor: true },
         },
         {
-            path:"/home",
+            path:"/inyil/home",
             name:"home",
             component: Home,
             beforeEnter: isAuth,
         },
         {
-            path:"/products",
+            path:"/inyil/products",
             name:"products",
             component: Products,
             beforeEnter: isAuth,
         },
         {
-            path:"/history",
+            path:"/inyil/history",
             name:"history",
             component: History,
             beforeEnter: isAuth,
         },
         {
             path: "*",
-            redirect: "/home",
+            redirect: "/inyil/home",
         }
     ]
 })
