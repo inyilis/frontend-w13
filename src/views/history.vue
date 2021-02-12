@@ -85,11 +85,11 @@ export default {
         if(res.data.result.name === 'TokenExpiredError'){
           this.delAuth();
           alert('Token Expired! Silahkan Login Lagi');
-          router.push('/inyil/login');
+          router.push('/sada/login');
         }else
         if(res.data.result[0].msg === 'Login dulu!'){
           alert('Login Dulu!');
-          router.push('/inyil/login');
+          router.push('/sada/login');
         }else{
           this.histories = res.data.result;
         }
