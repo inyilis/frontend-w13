@@ -11,7 +11,7 @@ const isAuth = (to, from, next) => {
         next()
     }
     else {
-        next('/login')
+        next('/inyil/login')
     }
 }
 
@@ -55,7 +55,7 @@ const mainRoters = new VueRoters({
 mainRoters.beforeEach((to, from, next) => {
     if (to.matched.some((record) => record.meta.requiresVisitor)) {
         if (Store.getters.getAuth.login == true) {
-            next("/home");
+            next("/inyil/home");
         }
         else {
             next();
