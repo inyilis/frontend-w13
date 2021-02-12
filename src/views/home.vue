@@ -210,11 +210,11 @@ export default {
         if(res.data.result.name === 'TokenExpiredError'){
           this.delAuth();
           alert('Token Expired! Silahkan Login Lagi');
-          router.push({ path: '/inyil/login' });
+          router.push({ path: '/login' });
         }else
         if(res.data.result[0].msg === 'Login dulu!'){
           alert('Login Dulu!');
-          router.push({ path: '/inyil/login' });
+          router.push({ path: '/login' });
         }else{
           this.datas = null;
           this.datas = res.data.result;
