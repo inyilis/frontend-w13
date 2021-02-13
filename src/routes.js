@@ -11,7 +11,7 @@ const isAuth = (to, from, next) => {
         next()
     }
     else {
-        next('/sada/login')
+        next('/login')
     }
 }
 
@@ -22,32 +22,32 @@ const mainRoters = new VueRoters({
     routes:
     [
         {
-            path:"/sada/login",
+            path:"/login",
             name:"login",
             component: Login,
             meta: { requiresVisitor: true },
         },
         {
-            path:"/sada/home",
+            path:"/home",
             name:"home",
             component: Home,
             beforeEnter: isAuth,
         },
         {
-            path:"/sada/products",
+            path:"/products",
             name:"products",
             component: Products,
             beforeEnter: isAuth,
         },
         {
-            path:"/sada/history",
+            path:"/history",
             name:"history",
             component: History,
             beforeEnter: isAuth,
         },
         {
             path: "*",
-            redirect: "/sada/home",
+            redirect: "/home",
         }
     ]
 })
@@ -55,7 +55,7 @@ const mainRoters = new VueRoters({
 mainRoters.beforeEach((to, from, next) => {
     if (to.matched.some((record) => record.meta.requiresVisitor)) {
         if (Store.getters.getAuth.login == true) {
-            next("/sada/home");
+            next("/home");
         }
         else {
             next();

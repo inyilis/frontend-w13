@@ -38,7 +38,7 @@ const auth = {
             }
             if(res.data.result[0].msg === 'Token Created'){
                 commit('setAuth', res.data);
-                router.push('/sada/home');
+                router.push('/home');
             }
         })
         .catch((err) => {
