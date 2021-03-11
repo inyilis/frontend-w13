@@ -6,8 +6,8 @@
           <Navbar />
         </div>
         <div class="col-9 col-md-7 d-flex justify-content-between">
-          <h5 class="mt-2">Hi, {{ getAuth.name }}</h5>
-          <h2 class="font-weight-bold">Food</h2>
+          <h5 class="mt-2"> Hi, {{ getAuth.name }}</h5>
+          <h2 class="font-weight-bold">Food Items</h2>
           <h1></h1>
         </div>
         <div class="col-12 col-md-4 d-flex justify-content-end">
@@ -37,12 +37,7 @@
           v-for="items in datas"
           :key="items.id"
         >
-          <Card
-            :images="items.url_img"
-            :name="items.nama"
-            :price="items.harga"
-            :product="items"
-          />
+          <Card :images="items.url_img" :name="items.nama" :price="items.harga" :product="items"/>
         </article>
       </main>
     </div>
@@ -130,26 +125,10 @@
                   </p>
                 </div>
                 <div class="modal-footer">
-                  <button
-                    type="button"
-                    class="col btn btn-secondary"
-                    data-dismiss="modal"
-                    @click="
-                      addCheckout(allCart, calculate, cashier, getAuth.name) &
-                        cartNull()
-                    "
-                  >
+                  <button type="button" class="col btn btn-secondary" data-dismiss="modal" @click="addCheckout(allCart, calculate, cashier, getAuth.name) & cartNull()">
                     Print
                   </button>
-                  <button
-                    type="button"
-                    class="col btn btn-primary"
-                    data-dismiss="modal"
-                    @click="
-                      addCheckout(allCart, calculate, cashier, getAuth.name) &
-                        cartNull()
-                    "
-                  >
+                  <button type="button" class="col btn btn-primary" data-dismiss="modal" @click="addCheckout(allCart, calculate, cashier, getAuth.name) & cartNull()">
                     Send Email
                   </button>
                 </div>
@@ -169,7 +148,7 @@
         <div class="col container text-center">
           <img src="../assets/food-and-restaurant.png" alt="" />
           <h3>Your cart is empty</h3>
-          <p class="text-muted" style="font-size: 0.9rem">
+          <p class="text-muted" style="font-size: 0.9rem;">
             Please add some items from the menu
           </p>
         </div>
@@ -184,8 +163,8 @@ import Card from "../components/card.vue";
 import Cart from "../components/cart.vue";
 import Sorted from "../components/filter.vue";
 import axios from "axios";
-import router from "../routes";
-import { mapActions, mapGetters, mapMutations } from "vuex";
+import router from '../routes';
+import {mapActions, mapGetters, mapMutations} from 'vuex';
 
 export default {
   name: "home",
@@ -198,126 +177,122 @@ export default {
   data() {
     return {
       datas: null,
-      checkout: {
-        nama: null,
-        kasir: null,
-        total: null,
-        user: null,
+      checkout:{
+        nama:null,
+        kasir:null,
+        total:null,
+        user:null,
       },
       cashier: "inyiL",
-      sorted: {
-        nama: "",
-        kategori: "",
-        terbaru: "",
-        harga: "",
+      sorted:{
+        nama:'',
+        kategori:'',
+        terbaru:'',
+        harga:'',
       },
-      srcName: {
-        nama: "",
+      srcName:{
+        nama:''
       },
       filter: false,
     };
   },
   methods: {
-    ...mapActions(["cartNull"]),
-    ...mapMutations(["delAuth"]),
-    sortedProduct() {
+    ...mapActions(['cartNull']),
+    ...mapMutations(['delAuth']),
+    sortedProduct(){
       axios
-        .get(
-          process.env.VUE_APP_SEARCH +
-            `/?nama=${this.sorted.nama}&kategori=${this.sorted.kategori}&terbaru=${this.sorted.terbaru}&harga=${this.sorted.harga}`,
-          {
-            headers: {
-              authtoken: this.getAuth.token,
-            },
-          }
-        )
-        .then((res) => {
-          if (res.data.result.name === "TokenExpiredError") {
-            this.delAuth();
-            alert("Token Expired! Silahkan Login Lagi");
-            router.push("/login");
-          } else if (res.data.result[0].msg === "Login dulu!") {
-            alert("Login Dulu!");
-            router.push("/login");
-          } else {
-            this.datas = null;
-            this.datas = res.data.result;
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    },
-    searchName() {
-      axios
-        .get(process.env.VUE_APP_SEARCH + `/${this.srcName.nama}`, {
-          headers: {
-            authtoken: this.getAuth.token,
-          },
-        })
-        .then((res) => {
+      .get(process.env.VUE_APP_SEARCH + `/?nama=${this.sorted.nama}&kategori=${this.sorted.kategori}&terbaru=${this.sorted.terbaru}&harga=${this.sorted.harga}`,{
+        headers: {
+          authtoken: this.getAuth.token
+        }
+      })
+      .then((res) => {
+        if(res.data.result.name === 'TokenExpiredError'){
+          this.delAuth();
+          alert('Token Expired! Silahkan Login Lagi');
+          router.push('/login');
+        }else
+        if(res.data.result[0].msg === 'Login dulu!'){
+          alert('Login Dulu!');
+          router.push('/login');
+        }else{
           this.datas = null;
           this.datas = res.data.result;
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
     },
-    addCheckout(valueNama, valueTotal, valueKasir, valueUser) {
-      this.checkout.nama = `{`;
-      for (let i = 0; i < valueNama.length; i++) {
-        if (valueNama.length == 1) {
-          this.checkout.nama += `${valueNama[i].product.nama}`;
-        } else {
-          if (i == 0) {
-            this.checkout.nama += `${valueNama[i].product.nama}`;
-          } else {
-            this.checkout.nama += `,${valueNama[i].product.nama}`;
+    searchName(){
+      axios
+      .get(process.env.VUE_APP_SEARCH + `/${this.srcName.nama}`, {
+        headers: {
+          authtoken: this.getAuth.token
+        }
+      })
+      .then((res) => {
+        this.datas = null;
+        this.datas = res.data.result;
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    },
+    addCheckout(valueNama, valueTotal, valueKasir, valueUser){
+      this.checkout.nama = `{`
+      for(let i = 0; i < valueNama.length; i++) {
+        if(valueNama.length == 1){
+          this.checkout.nama += `${valueNama[i].product.nama}`
+        }else{
+          if(i == 0){
+            this.checkout.nama += `${valueNama[i].product.nama}`
+          }else{
+            this.checkout.nama += `,${valueNama[i].product.nama}`
           }
         }
       }
-      this.checkout.nama += `}`;
+      this.checkout.nama += `}`
       this.checkout.total = valueTotal;
       this.checkout.kasir = valueKasir;
       this.checkout.user = valueUser;
-
-      axios
-        .post(process.env.VUE_APP_HISTORY, this.checkout, {
-          headers: {
-            authtoken: this.getAuth.token,
-          },
-        })
-        .then(() => {
-          this.chart = [];
-          alert("Success Checkout!");
-        })
-        .catch((err) => {
-          console.log(err);
-          alert("Error Add Product!");
-        });
+      
+      axios.post(process.env.VUE_APP_HISTORY, this.checkout, {
+        headers: {
+          authtoken: this.getAuth.token
+        }
+      })
+      .then(() => {
+        this.chart = [];
+        alert('Success Checkout!')
+      })
+      .catch((err) => {
+        console.log(err);
+        alert('Error Add Product!')
+      });
     },
     filterOn() {
       this.filter = !this.filter;
-      this.sorted.nama = "";
-      this.sorted.kategori = "";
-      this.sorted.terbaru = "";
-      this.sorted.harga = "";
+      this.sorted.nama = '';
+      this.sorted.kategori = '';
+      this.sorted.terbaru = '';
+      this.sorted.harga = '';
       this.sortedProduct();
     },
-    sortedData(data) {
+    sortedData(data){
       this.sorted.nama = data.nama;
       this.sorted.kategori = data.kategori;
       this.sorted.terbaru = data.terbaru;
       this.sorted.harga = data.harga;
       this.sortedProduct();
-    },
+    }
   },
   computed: {
-    ...mapGetters(["allCart", "calculate", "quantity", "getAuth"]),
+    ...mapGetters(['allCart', 'calculate', 'quantity', 'getAuth']),
   },
   mounted() {
-    this.sortedProduct();
-    this.searchName();
+    this.sortedProduct()
+    this.searchName()
   },
 };
 </script>

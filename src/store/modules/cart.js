@@ -1,72 +1,72 @@
 const cart = {
   state: {
-    cart: [],
+    cart: []
   },
   getters: {
     allCart: (state) => {
-      return state.cart;
+      return state.cart
     },
     calculate: (state) => {
-      let price = 0;
+      let price = 0
       for (const key in state.cart) {
-        price = price + state.cart[key].product.harga * state.cart[key].qty;
+        price = price + state.cart[key].product.harga * state.cart[key].qty
       }
-      return price;
+      return price
     },
     quantity: (state) => {
-      let qty = 0;
+      let qty = 0
       for (const key in state.cart) {
-        qty = qty + state.cart[key].qty;
+        qty = qty + state.cart[key].qty
       }
-      return qty;
-    },
+      return qty
+    }
   },
   actions: {
-    addCart({commit, state}, data) {
+    addCart ({ commit, state }, data) {
       let indexItem
-      let isExist = state.cart.filter((item, index) => {
-        if(item.product.id == Number(data.id)){
-          indexItem = index;
-          return true;
-        }else{
-          return false;
+      const isExist = state.cart.filter((item, index) => {
+        if (item.product.id === Number(data.id)) {
+          indexItem = index
+          return true
+        } else {
+          return false
         }
       })
 
-      if(isExist.length){
-        commit('incrementQty', indexItem);
-      }else{
-        commit('addCart', {product: data, qty: 1});
+      if (isExist.length) {
+        commit('incrementQty', indexItem)
+      } else {
+        commit('addCart', { product: data, qty: 1 })
       }
     },
-    delCart({commit, state}, idCart) {
-      if(state.cart[idCart].qty > 1){
-        commit('decrementQty', idCart);
-      }else{
-        commit('delCart', idCart);
+    delCart ({ commit, state }, idCart) {
+      if (state.cart[idCart].qty > 1) {
+        commit('decrementQty', idCart)
+      } else {
+        commit('delCart', idCart)
       }
     },
-    cartNull({commit}) {
-      commit('cartNull');
-    },
+    cartNull ({ commit }) {
+      commit('cartNull')
+    }
   },
   mutations: {
-    addCart(state, data){
+    addCart (state, data) {
       state.cart.push(data)
     },
-    incrementQty(state, idx){
+    incrementQty (state, idx) {
       state.cart[idx].qty++
     },
-    delCart(state, idx){
+    delCart (state, idx) {
       state.cart.splice(idx, 1)
     },
-    decrementQty(state, idx){
+    decrementQty (state, idx) {
       state.cart[idx].qty--
     },
-    cartNull(state){
+    cartNull (state) {
       state.cart = []
-    },
-  },
+    }
+  }
 }
 
 export default cart
