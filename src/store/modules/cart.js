@@ -25,7 +25,7 @@ const cart = {
     addCart ({ commit, state }, data) {
       let indexItem
       const isExist = state.cart.filter((item, index) => {
-        if (item.product.id === Number(data.id)) {
+        if (item.product.id == Number(data.id)) {
           indexItem = index
           return true
         } else {
